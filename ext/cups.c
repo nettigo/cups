@@ -116,7 +116,7 @@ static VALUE cups_print(VALUE self)
   char *fname = RSTRING_PTR(file); // Filename
   char *title = T_STRING == TYPE(rname) ? RSTRING_PTR(rname) : "rCups";
   char *target = RSTRING_PTR(printer); // Target printer string
-  const char *url = RSTRING_PTR(url_path); // Server URL address
+  const char *url = NIL_P(url_path) ? cupsServer() : RSTRING_PTR(url_path);   // Server URL address
   int port = 631; // Default CUPS port
 
   VALUE job_options = rb_iv_get(self, "@job_options");
@@ -145,10 +145,6 @@ static VALUE cups_print(VALUE self)
     char * iter_str  = rb_string_value_ptr(&iter);
     char * value_str = rb_string_value_ptr(&value);
     cupsAddOption(iter_str, value_str, num_options++, &options);
-  }
-
-  if(NIL_P(url)) {
-    url = cupsServer();
   }
 
   int encryption = (http_encryption_t)cupsEncryption();
