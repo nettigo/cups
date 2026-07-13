@@ -91,8 +91,7 @@ static VALUE job_init(int argc, VALUE* argv, VALUE self)
  * This is so that I can get a list of keys to convert to options
  */
 static int
-cups_keys_i(key, value, ary)
-  VALUE key, value, ary;
+cups_keys_i(VALUE key, VALUE value,VALUE ary)
 {
   if (key == Qundef) return ST_CONTINUE;
   rb_ary_push(ary, key);
